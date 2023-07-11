@@ -2,11 +2,24 @@ import debug from "debug";
 import express from "express";
 import http from "http";
 import { Server as SocketIO } from "socket.io";
+import mongoose from "mongoose";
+import ImgRouter from "./img.route";
+import path from "path";
+import cors from "cors";
 
 const serverDebug = debug("server");
 const ioDebug = debug("io");
 const socketDebug = debug("socket");
-
+const url = "mongodb+srv://hieu:hieu123456@hieu.zjelqqh.mongodb.net/task1";
+const connectDB = async () => {
+  try {
+    await mongoose.connect(url);
+    console.log("MongoDB Connected...");
+  } catch (error) {
+    console.log("Connect failed");
+  }
+};
+connectDB();
 require("dotenv").config(
   process.env.NODE_ENV !== "development"
     ? { path: ".env.production" }
@@ -16,15 +29,22 @@ require("dotenv").config(
 const app = express();
 const port =
   process.env.PORT || (process.env.NODE_ENV !== "development" ? 80 : 3002); // default port to listen
-
+console.log("port: " + port);
 app.use(express.static("public"));
-
+app.use(express.json());
+app.use(cors());
+app.use("/api/v1/images", ImgRouter);
+app.use(
+  "/images/view",
+  express.static(
+    path.join(path.dirname(__dirname).concat("/public"), "upload"),
+  ),
+);
+// console.log(path.join(path.dirname(__dirname).concat("/public"), "upload"));
 app.get("/", (req, res) => {
   res.send("Excalidraw collaboration server is up :)");
 });
-
 const server = http.createServer(app);
-
 server.listen(port, () => {
   serverDebug(`listening on port: ${port}`);
 });
