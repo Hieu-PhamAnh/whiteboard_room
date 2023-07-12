@@ -4,6 +4,7 @@ import { Schema } from "mongoose";
 export const ImgSchema = new Schema(
   {
     url: { type: String, require: true },
+    roomId: { type: String, require: true },
   },
   {
     timestamps: true,

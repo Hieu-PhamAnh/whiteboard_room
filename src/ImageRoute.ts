@@ -7,8 +7,9 @@ export const ImgRouter = Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    const { roomId } = req.params;
     let dest: string;
-    dest = path.join(__dirname, "../public/upload");
+    dest = path.join(__dirname, "../public/upload" + "/" + roomId);
     fs.mkdirsSync(dest);
     cb(null, dest);
   },
@@ -19,7 +20,7 @@ const storage = multer.diskStorage({
       Math.round(Math.random() * 1e9) +
       "." +
       file.mimetype.split("/")[1];
-    // console.log("Tại middleware: ", file.mimetype);
+    // console.log("Tại middleware: ", req);
     cb(null, filename);
   },
 });
@@ -27,7 +28,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 const cpUpload = upload.fields([{ name: "image", maxCount: 1 }]);
 
-ImgRouter.post("/upload", cpUpload, ImgController.upload);
+ImgRouter.post("/upload/:roomId", cpUpload, ImgController.upload);
 ImgRouter.get("/:id", ImgController.getImg);
+ImgRouter.delete("/:roomId", ImgController.deleteByRoomId);
 
 export default ImgRouter;
