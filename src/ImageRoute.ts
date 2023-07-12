@@ -1,4 +1,4 @@
-import ImgController from "./img.controller";
+import ImgController from "./ImageController";
 import { Router } from "express";
 import multer from "multer";
 import path from "path";
@@ -14,15 +14,20 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const filename =
-      Date.now() + "-" + Math.round(Math.random() * 1e9) + ".jpg";
-    console.log("Tại middleware: ", req.files);
+      Date.now() +
+      "-" +
+      Math.round(Math.random() * 1e9) +
+      "." +
+      file.mimetype.split("/")[1];
+    // console.log("Tại middleware: ", file.mimetype);
     cb(null, filename);
   },
 });
 
 const upload = multer({ storage });
-const cpUpload = upload.fields([{ name: "images", maxCount: 10 }]);
+const cpUpload = upload.fields([{ name: "image", maxCount: 1 }]);
 
 ImgRouter.post("/upload", cpUpload, ImgController.upload);
+ImgRouter.get("/:id", ImgController.getImg);
 
 export default ImgRouter;

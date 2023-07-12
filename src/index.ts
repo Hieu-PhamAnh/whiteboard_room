@@ -3,7 +3,7 @@ import express from "express";
 import http from "http";
 import { Server as SocketIO } from "socket.io";
 import mongoose from "mongoose";
-import ImgRouter from "./img.route";
+import ImgRouter from "./ImageRoute";
 import path from "path";
 import cors from "cors";
 
