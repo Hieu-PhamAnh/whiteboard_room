@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  backend:
+    container_name: backend
+    image: hieu/test-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "4001:4000"
+    environment:
+      - PORT=4000
+      - MONGO_URI=mongodb://root:abcd1234@mongodb:27017/test_db
+    volumes:
+      - ./data/backend/uploads:/excalidraw-room/public
+    # networks:
+    #   - backend
+
+  mongo:
+    container_name: mongodb
+    image: khacdatdo/mongo:5.0
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=abcd1234
+      - MONGO_INITDB_DATABASE=test_db
+    ports:
+      - "27020:27017"
+    volumes:
+      - ./data/mongo:/data/db
+    # networks:
+    #   - mongo
+    #   - backend
+# networks:
+#   backend:
+#     name: backend
+#     attachable: true
+#   mongo:
+#     name: mongo
+#     attachable: true

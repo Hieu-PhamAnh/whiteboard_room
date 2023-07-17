@@ -10,7 +10,7 @@ import cors from "cors";
 const serverDebug = debug("server");
 const ioDebug = debug("io");
 const socketDebug = debug("socket");
-const url = "mongodb+srv://hieu:hieu123456@hieu.zjelqqh.mongodb.net/task1";
+const url = process.env.MONGO_URI || "none";
 const connectDB = async () => {
   try {
     await mongoose.connect(url);
@@ -27,8 +27,7 @@ require("dotenv").config(
 );
 
 const app = express();
-const port =
-  process.env.PORT || (process.env.NODE_ENV !== "development" ? 80 : 3002); // default port to listen
+const port = process.env.PORT || 3002; // default port to listen
 console.log("port: " + port);
 app.use(express.static("public"));
 app.use(express.json());

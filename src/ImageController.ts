@@ -19,6 +19,7 @@ export const ImgController = {
       // console.log("Tại controller: ", imgArr);
       imgArr.forEach(async (element: any) => {
         let newImg = await Img.create({ url: element.path, roomId: roomId });
+        // await newImg.save();
       });
       return res.status(200).json({
         message: "Thành công",

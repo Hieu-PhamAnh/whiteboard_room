@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:18.16-bullseye-slim
 
 WORKDIR /excalidraw-room
 
