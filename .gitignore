@@ -106,5 +106,5 @@ dist
 
 .DS_Store
 dist
-public
-data
+public/
+data/

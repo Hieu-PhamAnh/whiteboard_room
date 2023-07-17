@@ -13,7 +13,7 @@ services:
       - PORT=4000
       - MONGO_URI=mongodb://root:abcd1234@mongodb:27017/test_db
     volumes:
-      - ./data/backend/uploads:/excalidraw-room/public
+      - ./data/backend:/excalidraw-room/public
     # networks:
     #   - backend
 
